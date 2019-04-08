@@ -1,12 +1,18 @@
 {
   "presets": [
-    ["env", {
-      "modules": false,
+    ["@babel/preset-env", {
       "targets": {
-        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+        "browsers": ["> 1%", "last 2 versions", "not ie <=8"]
       }
     }],
-    "stage-2"
   ],
-  "plugins": ["transform-vue-jsx", "transform-runtime"]
+  "plugins": [
+    "dynamic-import-node",
+    "@vue/babel-plugin-transform-vue-jsx",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions"
+  ]
 }
