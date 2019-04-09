@@ -1,10 +1,9 @@
 'use strict'
-
-const path = require('path')
 const utils = require('../build/utils')
 const webpack = require('webpack')
-const config = require('../config')
 const merge = require('webpack-merge')
+const path = require('path')
+const config = require('../config')
 const portfinder = require('portfinder')
 const baseWebpackConfig = require('./webpack.base')
 
@@ -45,6 +44,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 test: cssRegex,
                 exclude: cssModuleRegex,
                 use: utils.getStyleLoaders({
+                    importLoaders: 1,
                     sourceMap: config.dev.cssSourceMap,
                     usePostCSS: true
                 })
@@ -54,6 +54,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             {
                 test: cssModuleRegex,
                 use: utils.getStyleLoaders({
+                    importLoaders: 1,
                     modules: true,
                     sourceMap: config.dev.cssSourceMap,
                     usePostCSS: true
@@ -83,6 +84,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                     'less-loader'
                 )
             },
+            // Opt-in support for SASS (using .scss or .sass extensions).
+            // Chains the sass-loader with the css-loader and the style-loader
+            // to immediately apply all styles to the DOM.
             // By default we support SASS Modules with the
             // extensions .module.scss or .module.sass
             {
@@ -120,6 +124,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             'process.env': require('../config/dev.env')
         }),
         new webpack.HotModuleReplacementPlugin(),
+        // https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
             inject: 'body',
             filename: 'index.html',
@@ -132,12 +137,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 from: path.resolve(__dirname, '../static'),
                 to: config.dev.assetsSubDirectory,
                 ignore: ['.*']
-            },
-            {
-                from: path.resolve(__dirname, '../public'),
-                to: `${config.dev.assetsSubDirectory}/js`,
-                ignore: ['.*']
             }
+            // {
+            //     from: path.resolve(__dirname, '../public'),
+            //     to: config.dev.assetsSubDirectory + '/js',
+            //     ignore: ['.*']
+            // }
         ])
     ],
     performance: {
@@ -194,7 +199,7 @@ module.exports = new Promise((resolve, reject) => {
                         messages: [
                             `Your application is running here: http://${
                                 devWebpackConfig.devServer.host
-                                }:${port}`
+                            }:${port}`
                         ]
                     },
                     onErrors: config.dev.notifyOnErrors

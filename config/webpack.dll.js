@@ -2,23 +2,28 @@
 
 import path from 'path'
 import webpack from 'webpack'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 
-const vendors = ['vue', 'vuex', 'vue-router', 'lodash', 'axios']
-// Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false'
+const dllPath = path.resolve(__dirname, '../public')
 
 module.exports = {
     mode: 'production',
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.js', '.json', '.jsx', 'vue']
+        extensions: ['.js', '.json', 'jsx', 'vue']
     },
     entry: {
-        vendor: vendors
+        vendor: [
+            'vue',
+            'vuex',
+            'vue-router',
+            'lodash',
+            'axios'
+        ]
     },
     output: {
-        path: path.resolve(__dirname, '../public'),
+        path: dllPath,
         filename: '[name].[chunkhash].js',
         library: '[name]_[chunkhash]'
     },
@@ -59,7 +64,7 @@ module.exports = {
                 parallel: true,
                 // Enable file caching
                 cache: true,
-                sourceMap: shouldUseSourceMap
+                sourceMap: false
             })
         ]
     },
@@ -68,6 +73,8 @@ module.exports = {
         maxEntrypointSize: 300 * 1024
     },
     plugins: [
+        // clear old files
+        new CleanWebpackPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')

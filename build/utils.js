@@ -22,7 +22,10 @@ exports.getStyleLoaders = (cssOptions, preProcessor) => {
             : require.resolve('vue-style-loader'),
         {
             loader: require.resolve('css-loader'),
-            options: restOps
+            options: {
+                importLoaders: cssOptions.importLoaders || (usePostCSS ? 1 : 0),
+                sourceMap: cssOptions.sourceMap
+            }
         }
     ]
     if (usePostCSS) {

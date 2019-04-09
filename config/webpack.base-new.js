@@ -7,14 +7,14 @@ const { VueLoaderPlugin } = require('vue-loader')
 const manifest = require('../public/manifest_vendor')
 
 function resolve(dir) {
-    return path.join(__dirname, '../', dir)
+    return path.join(__dirname, '..', dir)
 }
 
 const createLintingRule = () => ({
     test: /\.(js|vue)$/,
     loader: 'eslint-loader',
     enforce: 'pre',
-    include: [resolve('src')],
+    include: [resolve('src'), resolve('test')],
     options: {
         formatter: require('eslint-friendly-formatter'),
         emitWarning: !config.dev.showEslintErrorsInOverlay
@@ -42,12 +42,15 @@ module.exports = {
     },
     optimization: {
         // Automatically split vendor and commons
+        // https://twitter.com/wSokra/status/969633336732905474
+        // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
         splitChunks: {
             chunks: 'all',
             minSize: 0,
-            // automaticNameDelimiter: '-'
+            automaticNameDelimiter: '-'
         },
         // Keep the runtime chunk seperated to enable long term caching
+        // https://twitter.com/wSokra/status/969679223278505985
         runtimeChunk: 'multiple'
     },
     module: {
@@ -122,6 +125,7 @@ module.exports = {
                         // its runtime that would otherwise be processed through "file" loader.
                         // Also exclude `html` and `json` extensions so they get processed
                         // by webpacks internal loaders.
+                        // exclude: [/\.js$/, /\.html$/, /\.json$/, /\.vue$/],
                         exclude: [
                             /\.vue$/,
                             /\.html$/,
@@ -142,6 +146,13 @@ module.exports = {
             }
         ]
     },
+    // externals: {
+    //     vue: 'Vue',
+    //     'vue-router': 'VueRouter',
+    //     vuex: 'vuex',
+    //     'elemenct-ui': 'ELEMENT',
+    //     axios: 'axios'
+    // },
     plugins: [
         new webpack.DllReferencePlugin({
             // context: __dirname,
