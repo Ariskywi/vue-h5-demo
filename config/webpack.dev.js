@@ -2,6 +2,7 @@
 
 const path = require('path')
 const utils = require('../build/utils')
+const env = require('../config/dev.env')
 const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
@@ -116,8 +117,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         ]
     },
     plugins: [
+        // new webpack.DefinePlugin(utils.getClientEnvironment('/').stringified),
         new webpack.DefinePlugin({
-            'process.env': require('../config/dev.env')
+            'process.env': JSON.stringify(env)
         }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
