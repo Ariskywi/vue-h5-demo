@@ -34,6 +34,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     output: {
         chunkFilename: utils.assetsPath('js/[name].js')
     },
+    optimization: {
+        splitChunks: {},
+    },
     module: {
         rules: [
             // "postcss" loader applies autoprefixer to our CSS.

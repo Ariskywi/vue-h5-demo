@@ -34,9 +34,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // Don't attempt to continue if there are any errors.
     bail: true,
     devtool: config.build.productionSourceMap ? config.build.devtool : false,
-    entry: {
-        app2: './src/index.js'
-    },
+    // entry: {
+    //     app2: './src/index.js'
+    // },
     output: {
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
