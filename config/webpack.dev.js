@@ -30,12 +30,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     mode: 'development',
     // cheap-module-eval-source-map is faster for development
     devtool: config.dev.devtool,
-    stats: { modules: true, chunks: true, children: false },
+    stats: {
+        modules: true,
+        chunks: true,
+        children: false,
+        chunkModules: false
+    },
     output: {
         chunkFilename: utils.assetsPath('js/[name].js')
     },
     optimization: {
-        splitChunks: {},
+        splitChunks: {}
     },
     module: {
         rules: [
@@ -199,7 +204,7 @@ module.exports = new Promise((resolve, reject) => {
                         messages: [
                             `Your application is running here: http://${
                                 devWebpackConfig.devServer.host
-                                }:${port}`
+                            }:${port}`
                         ]
                     },
                     onErrors: config.dev.notifyOnErrors

@@ -8,19 +8,14 @@ import TerserPlugin from 'terser-webpack-plugin'
 const dllPath = path.resolve(__dirname, '../public')
 
 module.exports = {
-    mode: 'production',
+    // mode: 'production',      // 线上
+    mode: 'development',
     resolve: {
         modules: ['node_modules'],
         extensions: ['.js', '.json', 'jsx', 'vue']
     },
     entry: {
-        vendor: [
-            'vue',
-            'vuex',
-            'vue-router',
-            'lodash',
-            'axios'
-        ]
+        vendor: ['vue', 'vuex', 'vue-router', 'lodash', 'axios']
     },
     output: {
         path: dllPath,
@@ -77,7 +72,8 @@ module.exports = {
         new CleanWebpackPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify('production')
+                // NODE_ENV: JSON.stringify('production')
+                NODE_ENV: JSON.stringify('development')
             }
         }),
         new webpack.DllPlugin({
