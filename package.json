@@ -10,6 +10,7 @@
     "dll": "babel-node build/dll.js",
     "test": "webpack --config config/webpack.dev.js",
     "lint": "eslint --ext .js,.vue src",
+    "theme": "et -c src/assets/css/element-variables.scss -o src/assets/css/theme",
     "build": "babel-node build/build.js"
   },
   "dependencies": {
@@ -55,6 +56,8 @@
     "copy-webpack-plugin": "^5.0.2",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
+    "element-theme": "^2.0.1",
+    "element-theme-chalk": "^2.7.2",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-friendly-formatter": "^4.0.1",

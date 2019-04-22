@@ -1,0 +1,27 @@
+html, body, #app{
+    height: 100%;
+}
+// iconfont symbol
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+#app{
+    overflow: hidden;
+}
+
+.flex-row{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// element-ui 默认样式修改
+.el-menu-item:hover,
+.el-submenu__title:hover {
+    background-color: #3a71a8 !important;
+}
