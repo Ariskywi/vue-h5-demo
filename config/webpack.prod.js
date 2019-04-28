@@ -1,20 +1,22 @@
 'use strict'
-import path from 'path'
-import utils from '../build/utils'
-import webpack from 'webpack'
-import config from '../config'
-import merge from 'webpack-merge'
-import env from '../config/prod.env'
-import baseWebpackConfig from './webpack.base'
 
-import TerserPlugin from 'terser-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import CompressionWebpackPlugin from 'compression-webpack-plugin'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+const path = require('path')
+const utils = require('../build/utils')
+const webpack = require('webpack')
+const config = require('../config')
+const merge = require('webpack-merge')
+const env = require('../config/prod.env')
+const baseWebpackConfig = require('./webpack.base')
 
-import manifest from '../public/manifest_vendor'
+const TerserPlugin = require('terser-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
+const manifest = require('../public/manifest_vendor')
+
 const vendor = '/static/js/' + manifest.name.replace('_', '.') + '.js'
 
 // style files regexes
@@ -43,8 +45,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     },
     optimization: {
         splitChunks: {
-            // name: false
+            name: false
         },
+        sideEffects: true,
         minimizer: [
             new TerserPlugin({
                 terserOptions: {

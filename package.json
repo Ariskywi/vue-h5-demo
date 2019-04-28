@@ -7,11 +7,11 @@
   "scripts": {
     "dev": "webpack-dev-server --config config/webpack.dev.js",
     "start": "npm run dev",
-    "dll": "babel-node build/dll.js",
-    "test": "webpack --config config/webpack.dev.js",
+    "dll": "node build/dll.js",
+    "test": "webpack --config config/webpack.prod.js",
     "lint": "eslint --ext .js,.vue src",
     "theme": "et -c src/assets/css/element-variables.scss -o src/assets/css/theme",
-    "build": "babel-node build/build.js"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
-    "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-decorators": "^7.4.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
     "@babel/plugin-proposal-function-sent": "^7.2.0",

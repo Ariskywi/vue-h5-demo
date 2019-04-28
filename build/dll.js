@@ -1,8 +1,8 @@
 'use strict'
 // weapp npm can not use process ENV ,so build manually
 
-import chalk from 'chalk'
-import webpack from 'webpack'
+const chalk = require('chalk')
+const webpack = require('webpack')
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'production'

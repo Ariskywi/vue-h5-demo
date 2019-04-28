@@ -6,8 +6,9 @@ module.exports = {
                 targets: {
                     browsers: ['> 1%', 'last 2 versions', 'not ie <=8']
                 },
-                // modules: false,
-                useBuiltIns: 'entry',
+                // 打开则webpack及node脚本中不能使用import，package的script脚本不再使用babel-node
+                modules: false,
+                useBuiltIns: 'usage',
                 corejs: { version: 3, proposals: true }
             }
         ]
