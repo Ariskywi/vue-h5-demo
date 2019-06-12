@@ -94,9 +94,7 @@ export const constantRoutes = [
             {
                 path: 'manage',
                 component: () =>
-                    import(
-                        /* webpackChunkName: "Account-manage" */ '@/views/hello'
-                    ),
+                    import(/* webpackChunkName: "Account-manage" */ '@/views/hello'),
                 name: 'manage',
                 meta: {
                     title: 'manage',
@@ -109,9 +107,7 @@ export const constantRoutes = [
             {
                 path: 'materials',
                 component: () =>
-                    import(
-                        /* webpackChunkName: "Account-materials" */ '@/views/hello'
-                    ),
+                    import(/* webpackChunkName: "Account-materials" */ '@/views/hello'),
                 name: 'materials',
                 meta: {
                     title: 'materials',
@@ -179,9 +175,7 @@ export const asyncRoutes = [
             {
                 path: 'enterprise',
                 component: () =>
-                    import(
-                        /* webpackChunkName: "Enterprise" */ '@/views/nested'
-                    ),
+                    import(/* webpackChunkName: "Enterprise" */ '@/views/nested'),
                 name: 'enterprise',
                 meta: {
                     title: 'enterprise',
@@ -192,9 +186,7 @@ export const asyncRoutes = [
                     {
                         path: 'item1',
                         component: () =>
-                            import(
-                                /* webpackChunkName: "Item1" */ '@/views/hello'
-                            ),
+                            import(/* webpackChunkName: "Item1" */ '@/views/hello'),
                         name: 'item1',
                         meta: {
                             title: 'item1',
@@ -205,9 +197,7 @@ export const asyncRoutes = [
                     {
                         path: 'item2',
                         component: () =>
-                            import(
-                                /* webpackChunkName: "Item2" */ '@/views/hello'
-                            ),
+                            import(/* webpackChunkName: "Item2" */ '@/views/hello'),
                         name: 'item2',
                         meta: {
                             title: 'item2',
@@ -218,9 +208,7 @@ export const asyncRoutes = [
                     {
                         path: 'item3',
                         component: () =>
-                            import(
-                                /* webpackChunkName: "Item3" */ '@/views/hello'
-                            ),
+                            import(/* webpackChunkName: "Item3" */ '@/views/hello'),
                         name: 'item3',
                         meta: {
                             title: 'item3',

@@ -12,7 +12,7 @@
                 text-color="#fff"
                 active-text-color="#1AB7EA"
             >
-                <el-menu-item v-if="authCode.includes('C20003')" index="/home"
+                <el-menu-item v-if="authCode.includes('C20003')" index="/home/index"
                     >首页</el-menu-item
                 >
                 <el-submenu
@@ -63,7 +63,7 @@
                 </el-submenu>
                 <el-menu-item
                     v-if="authCode.includes('C20008')"
-                    index="/message"
+                    index="/message/index"
                     >消息中心</el-menu-item
                 >
                 <el-submenu v-if="authCode.includes('C25000')" index="/account">

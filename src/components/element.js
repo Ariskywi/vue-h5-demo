@@ -22,7 +22,7 @@ import {
     // Select,
     // Option,
     // OptionGroup,
-    Button
+    Button,
     // ButtonGroup,
     // Table,
     // TableColumn,

@@ -8,20 +8,20 @@ module.exports = {
                 },
                 // 打开则webpack及node脚本中不能使用import，package的script脚本不再使用babel-node
                 modules: false,
-                useBuiltIns: 'usage',
+                useBuiltIns: 'entry',   // usage适用于库,entry适用于应用
                 corejs: { version: 3, proposals: true }
             }
         ]
     ],
     plugins: [
-        [
-            '@babel/transform-runtime',
-            {
-                absoluteRuntime: false,
-                corejs: 3,
-                regenerator: true
-            }
-        ],
+        // [
+        //     '@babel/transform-runtime',
+        //     {
+        //         absoluteRuntime: false,
+        //         corejs: 3,
+        //         regenerator: true
+        //     }
+        // ],
         '@babel/plugin-syntax-import-meta',
         '@babel/plugin-syntax-dynamic-import',
         '@vue/babel-plugin-transform-vue-jsx',

@@ -2,7 +2,6 @@ import router from '.'
 import store from '../store'
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // get token from sessionStorage
-// import { hasPermission } from '@/store/permission'
 
 const whiteList = ['/login', '/auth'] // no redirect whitelist
 
