@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>vue-demo-webpack</title>
+      <meta charset="utf-8">
+      <meta name="title">
+      <meta id="keywords" name="keywords" content="Vue-H5-demo">
+      <meta id="description" name="description" itemprop="description" content="Vue-H5-demo">
+      <meta name="full-screen" content="true">
+      <meta name="screen-orientation" content="portrait">
+      <meta name="x5-fullscreen" content="true">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" viewport-fit="contain">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+      <meta http-equiv="pragma" content="no-cache">
+      <meta http-equiv="cache-control" content="no-cache,must-revalidate">
+      <meta http-equiv="expires" content="-1">
+      <title>Vue-H5-demo</title>
+      <script>
+          !function(e){function t(a){if(i[a])return i[a].exports;var n=i[a]={exports:{},id:a,loaded:!1};return e[a].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var i={};return t.m=e,t.c=i,t.p="",t(0)}([function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=window;t["default"]=i.flex=function(e,t){var a=e||100,n=t||1,r=i.document,o=navigator.userAgent,d=o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i),l=o.match(/U3\/((\d+|\.){5,})/i),c=l&&parseInt(l[1].split(".").join(""),10)>=80,p=navigator.appVersion.match(/(iphone|ipad|ipod)/gi),s=i.devicePixelRatio||1;p||d&&d[1]>534||c||(s=1,window.h5dpr=1);var u=1,m=r.querySelector('meta[name="viewport"]');m||(m=r.createElement("meta"),m.setAttribute("name","viewport"),r.head.appendChild(m)),m.setAttribute("content","width=device-width,user-scalable=no,initial-scale="+u+",maximum-scale="+u+",minimum-scale="+u),r.documentElement.style.fontSize=a*n+"px"},e.exports=t["default"]}]);
+          if((window.h5dpr === 1) && (self != top)){
+              // iframe, 设定了比例
+              if(window.innerWidth<375){
+                  flex(37.5, 1)
+              }else{
+                  flex(37.5, window.innerWidth / 375)
+              }
+          }else{
+              // 相对于ip6的缩放
+              var absoluteScale = document.documentElement.getBoundingClientRect().width / 375
+              flex(37.5, absoluteScale)
+          }
+      </script>
   </head>
   <body>
     <div id="app"></div>

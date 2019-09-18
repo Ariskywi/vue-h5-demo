@@ -12,74 +12,41 @@
                 text-color="#fff"
                 active-text-color="#1AB7EA"
             >
-                <el-menu-item v-if="authCode.includes('C20003')" index="/home/index"
-                    >首页</el-menu-item
-                >
-                <el-submenu
-                    v-if="authCode.includes('C20004')"
-                    index="/operation"
-                >
+                <el-menu-item v-if="authCode.includes('C20003')" index="/home/index">首页</el-menu-item>
+                <el-submenu v-if="authCode.includes('C20004')" index="/operation">
                     <template slot="title">
                         操作中心
                     </template>
-                    <el-menu-item
-                        v-if="authCode.includes('C20006')"
-                        index="/operation/dashboard"
-                    >
+                    <el-menu-item v-if="authCode.includes('C20006')" index="/operation/dashboard">
                         仪表盘
                     </el-menu-item>
-                    <el-menu-item
-                        v-if="authCode.includes('C20018')"
-                        index="/operation/personal"
-                    >
+                    <el-menu-item v-if="authCode.includes('C20018')" index="/operation/personal">
                         个人信息
                     </el-menu-item>
-                    <el-submenu
-                        v-if="authCode.includes('C20020')"
-                        index="/operation/enterprise"
-                    >
+                    <el-submenu v-if="authCode.includes('C20020')" index="/operation/enterprise">
                         <template slot="title">
                             企业信息
                         </template>
-                        <el-menu-item
-                            v-if="authCode.includes('C20012')"
-                            index="/operation/enterprise/item1"
-                        >
+                        <el-menu-item v-if="authCode.includes('C20012')" index="/operation/enterprise/item1">
                             选项1
                         </el-menu-item>
-                        <el-menu-item
-                            v-if="authCode.includes('C20021')"
-                            index="/operation/enterprise/item2"
-                        >
+                        <el-menu-item v-if="authCode.includes('C20021')" index="/operation/enterprise/item2">
                             选项2
                         </el-menu-item>
-                        <el-menu-item
-                            v-if="authCode.includes('C20002')"
-                            index="/operation/enterprise/item3"
-                        >
+                        <el-menu-item v-if="authCode.includes('C20002')" index="/operation/enterprise/item3">
                             选项3
                         </el-menu-item>
                     </el-submenu>
                 </el-submenu>
-                <el-menu-item
-                    v-if="authCode.includes('C20008')"
-                    index="/message/index"
-                    >消息中心</el-menu-item
-                >
+                <el-menu-item v-if="authCode.includes('C20008')" index="/message/index">消息中心</el-menu-item>
                 <el-submenu v-if="authCode.includes('C25000')" index="/account">
                     <template slot="title">
                         账户管理
                     </template>
-                    <el-menu-item
-                        v-if="authCode.includes('C25001')"
-                        index="/account/manage"
-                    >
+                    <el-menu-item v-if="authCode.includes('C25001')" index="/account/manage">
                         账户信息
                     </el-menu-item>
-                    <el-menu-item
-                        v-if="authCode.includes('C25001')"
-                        index="/account/materials"
-                    >
+                    <el-menu-item v-if="authCode.includes('C25001')" index="/account/materials">
                         资料管理
                     </el-menu-item>
                 </el-submenu>
@@ -90,15 +57,10 @@
             <template v-if="device !== 'mobile'">
                 <search class="right-menu-item" />
 
-                <error-log
-                    class="errLog-container right-menu-item hover-effect"
-                />
+                <error-log class="errLog-container right-menu-item hover-effect" />
             </template>
 
-            <el-dropdown
-                class="avatar-container right-menu-item hover-effect"
-                trigger="click"
-            >
+            <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
                 <div class="avatar-wrapper">
                     <svg class="icon user-avatar" aria-hidden="true">
                         <use xlink:href="#icon-avatar"></use>
@@ -111,18 +73,13 @@
                             {{ navbar.dashboard }}
                         </el-dropdown-item>
                     </router-link>
-                    <a
-                        target="_blank"
-                        href="https://github.com/PanJiaChen/vue-element-admin/"
-                    >
+                    <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
                         <el-dropdown-item>
                             {{ navbar.github }}
                         </el-dropdown-item>
                     </a>
                     <el-dropdown-item divided>
-                        <span style="display:block;" @click="logout">{{
-                            navbar.logOut
-                        }}</span>
+                        <span style="display:block;" @click="logout">{{ navbar.logOut }}</span>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -131,15 +88,20 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import ErrorLog from '@/components/ErrorLog'
 import Search from '@/components/HeaderSearch'
+import { Tab, Tabs } from 'vant'
 
 import { globalStyles } from '@/utils/config'
+
+Vue.use(Tab).use(Tabs)
 
 export default {
     data() {
         return {
+            device: 'mobile',
             navbar: {
                 logOut: '退出登录',
                 dashboard: '首页',

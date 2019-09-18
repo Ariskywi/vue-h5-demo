@@ -55,6 +55,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 exclude: cssModuleRegex,
                 use: utils.getStyleLoaders({
                     sourceMap: config.dev.cssSourceMap,
+                    usePx2rem: true,
                     usePostCSS: true
                 })
             },
@@ -65,6 +66,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 use: utils.getStyleLoaders({
                     modules: true,
                     sourceMap: config.dev.cssSourceMap,
+                    usePx2rem: true,
                     usePostCSS: true
                 })
             },
@@ -75,6 +77,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                     {
                         importLoaders: 2,
                         sourceMap: config.dev.cssSourceMap,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'less-loader'
@@ -87,6 +90,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                         importLoaders: 2,
                         modules: true,
                         sourceMap: config.dev.cssSourceMap,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'less-loader'
@@ -102,6 +106,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                         importLoaders: 2,
                         indentedSyntax: true,
                         sourceMap: config.dev.cssSourceMap,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'sass-loader'
@@ -117,6 +122,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                         modules: true,
                         indentedSyntax: true,
                         sourceMap: config.dev.cssSourceMap,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'sass-loader'
@@ -160,10 +166,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             rewrites: [
                 {
                     from: /.*/,
-                    to: path.posix.join(
-                        config.dev.assetsPublicPath,
-                        'index.html'
-                    )
+                    to: path.posix.join(config.dev.assetsPublicPath, 'index.html')
                 }
             ]
         },
@@ -174,9 +177,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         host: HOST || config.dev.host,
         port: PORT || config.dev.port,
         open: config.dev.autoOpenBrowser,
-        overlay: config.dev.errorOverlay
-            ? { warnings: false, errors: true }
-            : false,
+        overlay: config.dev.errorOverlay ? { warnings: false, errors: true } : false,
         publicPath: config.dev.assetsPublicPath,
         proxy: config.dev.proxyTable,
         // quiet: true, // necessary for FriendlyErrorsPlugin
@@ -202,14 +203,10 @@ module.exports = new Promise((resolve, reject) => {
                 new FriendlyErrorsPlugin({
                     compilationSuccessInfo: {
                         messages: [
-                            `Your application is running here: http://${
-                                devWebpackConfig.devServer.host
-                            }:${port}`
+                            `Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`
                         ]
                     },
-                    onErrors: config.dev.notifyOnErrors
-                        ? utils.createNotifierCallback()
-                        : undefined
+                    onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined
                 })
             )
 

@@ -103,6 +103,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                     importLoaders: 1,
                     sourceMap: config.build.productionSourceMap,
                     extract: true,
+                    usePx2rem: true,
                     usePostCSS: true
                 })
             },
@@ -115,6 +116,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                     modules: true,
                     sourceMap: config.build.productionSourceMap,
                     extract: true,
+                    usePx2rem: true,
                     usePostCSS: true
                 })
             },
@@ -126,6 +128,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                         importLoaders: 2,
                         sourceMap: config.build.productionSourceMap,
                         extract: true,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'less-loader'
@@ -139,6 +142,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                         modules: true,
                         sourceMap: config.build.productionSourceMap,
                         extract: true,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'less-loader'
@@ -157,6 +161,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                         importLoaders: 2,
                         sourceMap: config.build.productionSourceMap,
                         extract: true,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'sass-loader'
@@ -172,6 +177,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                         modules: true,
                         sourceMap: config.build.productionSourceMap,
                         extract: true,
+                        usePx2rem: true,
                         usePostCSS: true
                     },
                     'sass-loader'
@@ -228,9 +234,7 @@ if (config.build.productionGzip) {
         new CompressionWebpackPlugin({
             asset: '[path].gz[query]',
             algorithm: 'gzip',
-            test: new RegExp(
-                '\\.(' + config.build.productionGzipExtensions.join('|') + ')$'
-            ),
+            test: new RegExp('\\.(' + config.build.productionGzipExtensions.join('|') + ')$'),
             threshold: 10240,
             minRatio: 0.8
         })

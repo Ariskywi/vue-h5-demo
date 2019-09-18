@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="less">
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     text-align: center;

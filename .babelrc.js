@@ -8,7 +8,7 @@ module.exports = {
                 },
                 // 打开则webpack及node脚本中不能使用import，package的script脚本不再使用babel-node
                 modules: false,
-                useBuiltIns: 'entry',   // usage适用于库,entry适用于应用
+                useBuiltIns: 'entry', // usage适用于库,entry适用于应用
                 corejs: { version: 3, proposals: true }
             }
         ]
@@ -22,6 +22,15 @@ module.exports = {
         //         regenerator: true
         //     }
         // ],
+        [
+            'import',
+            {
+                libraryName: 'vant',
+                libraryDirectory: 'es',
+                style: true
+            },
+            'vant'
+        ],
         '@babel/plugin-syntax-import-meta',
         '@babel/plugin-syntax-dynamic-import',
         '@vue/babel-plugin-transform-vue-jsx',

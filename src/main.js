@@ -2,9 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import './registerServiceWorker'
-// import '@/components/element'        // element-ui 按需加载
-import '@/assets/css/theme/index.css'
+// import './registerServiceWorker'
 import Element from 'element-ui'
 
 import 'normalize.css'

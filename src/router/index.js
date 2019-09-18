@@ -28,12 +28,15 @@ Vue.use(Router)
  **/
 export const constantRoutes = [
     {
+        path: '',
+        redirect: '/home'
+    },
+    {
         path: '/login',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "Login" */ '@/views/login/index'),
+        component: () => import(/* webpackChunkName: "Login" */ '@/views/login/index'),
         hidden: true
     },
     {
@@ -47,8 +50,7 @@ export const constantRoutes = [
         children: [
             {
                 path: 'index',
-                component: () =>
-                    import(/* webpackChunkName: "Home" */ '@/views/hello'),
+                component: () => import(/* webpackChunkName: "Home" */ '@/views/hello'),
                 name: 'homeIndex',
                 meta: {
                     title: 'homeIndex',
@@ -61,73 +63,9 @@ export const constantRoutes = [
         ]
     },
     {
-        path: '/message',
-        component: Layout,
-        name: 'message',
-        meta: {
-            authCode: 'C22001'
-        },
-        redirect: '/message/index',
-        children: [
-            {
-                path: 'index',
-                component: () =>
-                    import(/* webpackChunkName: "Message" */ '@/views/hello'),
-                name: 'info',
-                meta: {
-                    title: 'info',
-                    icon: 'info',
-                    authCode: 'C22021',
-                    noCache: true,
-                    affix: true
-                }
-            }
-        ]
-    },
-    {
-        path: '/account',
-        component: Layout,
-        meta: {
-            authCode: 'C23001'
-        },
-        children: [
-            {
-                path: 'manage',
-                component: () =>
-                    import(/* webpackChunkName: "Account-manage" */ '@/views/hello'),
-                name: 'manage',
-                meta: {
-                    title: 'manage',
-                    icon: 'manage',
-                    authCode: 'C23031',
-                    noCache: true,
-                    affix: true
-                }
-            },
-            {
-                path: 'materials',
-                component: () =>
-                    import(/* webpackChunkName: "Account-materials" */ '@/views/hello'),
-                name: 'materials',
-                meta: {
-                    title: 'materials',
-                    icon: 'materials',
-                    authCode: 'C23032',
-                    noCache: true,
-                    affix: true
-                }
-            }
-        ]
-    },
-    {
         path: '/404',
-        component: () =>
-            import(/* webpackChunkName: "Page404" */ '@/views/errorPage/404'),
+        component: () => import(/* webpackChunkName: "Page404" */ '@/views/errorPage/404'),
         hidden: true
-    },
-    {
-        path: '',
-        redirect: '/home'
     }
 ]
 
@@ -151,31 +89,8 @@ export const asyncRoutes = [
         },
         children: [
             {
-                path: 'dashboard',
-                component: () =>
-                    import(/* webpackChunkName: "Dashboard" */ '@/views/hello'),
-                name: 'dashboard',
-                meta: {
-                    title: 'dashboard',
-                    roles: ['admin'],
-                    authCode: 'C20011'
-                }
-            },
-            {
-                path: 'personal',
-                component: () =>
-                    import(/* webpackChunkName: "Personal" */ '@/views/hello'),
-                name: 'personal',
-                meta: {
-                    title: 'personal',
-                    roles: ['admin'],
-                    authCode: 'C20012'
-                }
-            },
-            {
                 path: 'enterprise',
-                component: () =>
-                    import(/* webpackChunkName: "Enterprise" */ '@/views/nested'),
+                component: () => import(/* webpackChunkName: "Enterprise" */ '@/views/nested'),
                 name: 'enterprise',
                 meta: {
                     title: 'enterprise',
@@ -185,35 +100,12 @@ export const asyncRoutes = [
                 children: [
                     {
                         path: 'item1',
-                        component: () =>
-                            import(/* webpackChunkName: "Item1" */ '@/views/hello'),
+                        component: () => import(/* webpackChunkName: "Item1" */ '@/views/hello'),
                         name: 'item1',
                         meta: {
                             title: 'item1',
                             roles: ['admin'],
                             authCode: 'C20131'
-                        }
-                    },
-                    {
-                        path: 'item2',
-                        component: () =>
-                            import(/* webpackChunkName: "Item2" */ '@/views/hello'),
-                        name: 'item2',
-                        meta: {
-                            title: 'item2',
-                            roles: ['admin'],
-                            authCode: 'C20132'
-                        }
-                    },
-                    {
-                        path: 'item3',
-                        component: () =>
-                            import(/* webpackChunkName: "Item3" */ '@/views/hello'),
-                        name: 'item3',
-                        meta: {
-                            title: 'item3',
-                            roles: ['admin'],
-                            authCode: 'C20133'
                         }
                     }
                 ]
