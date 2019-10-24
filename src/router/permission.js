@@ -1,9 +1,12 @@
+import Vue from 'vue'
 import router from '.'
 import store from '../store'
-import { Message } from 'element-ui'
+import { Toast } from 'vant'
 import { getToken } from '@/utils/auth' // get token from sessionStorage
 
-const whiteList = ['/login', '/auth'] // no redirect whitelist
+const whiteList = ['index', '/login'] // no redirect whitelist
+
+Vue.use(Toast)
 
 router.beforeEach(async (to, from, next) => {
     // 暂时使用token来判定是否已登录,后续可能需要更改为sessionId
@@ -27,30 +30,18 @@ router.beforeEach(async (to, from, next) => {
                 const res = await store.dispatch('GetPermissions')
                 if (res.success) {
                     const { authData } = res
-                    const accessRoutes = await store.dispatch(
-                        'GenerateRoutes',
-                        { authData, roles }
-                    )
+                    const accessRoutes = await store.dispatch('GenerateRoutes', { authData, roles })
                     // 动态添加路由
                     router.addRoutes(accessRoutes)
                     next({ ...to, replace: true })
                 } else {
                     // 请求权限失败,退出
                     await store.dispatch('FedLogOut')
-                    Message.error(res.errorMsg)
+                    Toast.fail(res.errorMsg)
                     next({ path: '/' })
                 }
             } else {
                 next()
-                // if (hasPermission(store.getters.authData, to)) {
-                //     next()
-                // } else {
-                //     next({
-                //         path: '/404',
-                //         replace: true,
-                //         query: { noGoBack: true }
-                //     })
-                // }
             }
         }
     } else {

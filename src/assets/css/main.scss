@@ -1,25 +1,33 @@
-html, body, #app{
+html,
+body,
+#app {
     height: 100%;
 }
 // iconfont symbol
 .icon {
-    width: 1em; height: 1em;
+    width: 1em;
+    height: 1em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
 }
 
-#app{
+#app {
     overflow: hidden;
 }
 
-.flex-row{
+.flex-row {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
 }
-
+.flex-column {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
 // element-ui 默认样式修改
 .el-menu-item:hover,
 .el-submenu__title:hover {

@@ -1,138 +1,85 @@
 <template>
-    <div class="login-container">
-        <el-form
-            ref="loginForm"
-            :model="loginForm"
-            :rules="loginRules"
-            class="login-form"
-            auto-complete="on"
-            label-position="left"
-        >
-            <div class="title-container">
-                <h3 class="title">
-                    {{ login.title }}
-                </h3>
-            </div>
+    <div class="login-container flex-column">
+        <div class="title-container">
+            <h3 class="title">
+                {{ login.title }}
+            </h3>
+        </div>
+        <div class="flex-row mb10 w300">
+            <span class="svg-container">
+                <div class="user iconfont icon-user-fill" />
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-user-fill"></use>
+                </svg>
+            </span>
+            <van-field
+                class="form-field"
+                label="用户名"
+                required
+                clearable
+                v-model="loginForm.userName"
+                placeholder="请输入用户名"
+            />
+        </div>
 
-            <el-form-item prop="username">
-                <span class="svg-container">
-                    <div class="user iconfont icon-user-fill" />
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-user-fill"></use>
-                    </svg>
-                </span>
-                <el-input
-                    v-model="loginForm.username"
-                    :placeholder="login.username"
-                    name="username"
-                    type="text"
-                    auto-complete="on"
-                />
-            </el-form-item>
+        <div class="flex-row mb10 w300">
+            <span class="svg-container">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-lock"></use>
+                </svg>
+            </span>
+            <van-field
+                class="form-field"
+                label="密码"
+                required
+                clearable
+                :value="loginForm.password"
+                placeholder="请输入密码"
+            />
+            <span class="show-pwd" @click="showPwd">
+                <svg v-if="passwordType === 'password'" class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-eye-close"></use>
+                </svg>
+                <svg v-else class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-eye-open"></use>
+                </svg>
+            </span>
+        </div>
 
-            <el-form-item prop="password">
-                <span class="svg-container">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-lock"></use>
-                    </svg>
-                </span>
-                <el-input
-                    v-model="loginForm.password"
-                    :type="passwordType"
-                    :placeholder="login.password"
-                    name="password"
-                    auto-complete="on"
-                    @keyup.enter.native="handleLogin"
-                />
-                <span class="show-pwd" @click="showPwd">
-                    <svg v-if="passwordType === 'password'" class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-eye-close"></use>
-                    </svg>
-                    <svg v-else class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-eye-open"></use>
-                    </svg>
-                </span>
-            </el-form-item>
-
-            <el-button
-                :loading="loading"
-                type="primary"
-                style="width:100%;margin-bottom:30px;"
-                @click.native.prevent="handleLogin"
-            >
-                {{ login.logIn }}
-            </el-button>
-        </el-form>
+        <van-button type="primary" class="login-btn mb10" @click.native.prevent="handleLogin">
+            {{ login.logIn }}
+        </van-button>
     </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { Field, Button } from 'vant'
 
 export default {
     name: 'Login',
     data() {
-        const validateUsername = (rule, value, callback) => {
-            if (!validUsername(value)) {
-                callback(new Error('Please enter the correct user name'))
-            } else {
-                callback()
-            }
-        }
-        const validatePassword = (rule, value, callback) => {
-            if (value.length < 6) {
-                callback(new Error('The password can not be less than 6 digits'))
-            } else {
-                callback()
-            }
-        }
         return {
             login: {
-                title: '系统登录',
+                title: '请登录',
                 logIn: '登录',
                 username: '账号',
                 password: '密码'
             },
             loginForm: {
-                username: 'admin',
+                userName: 'admin',
                 password: '1111111'
-            },
-            loginRules: {
-                username: [
-                    {
-                        required: true,
-                        trigger: 'blur',
-                        validator: validateUsername
-                    }
-                ],
-                password: [
-                    {
-                        required: true,
-                        trigger: 'blur',
-                        validator: validatePassword
-                    }
-                ]
             },
             passwordType: 'password',
             loading: false,
-            showDialog: false,
-            redirect: undefined
+            showDialog: false
         }
     },
-    watch: {
-        $route: {
-            handler: function(route) {
-                this.redirect = route.query && route.query.redirect
-            },
-            immediate: true
-        }
+    components: {
+        vanField: Field,
+        vanButton: Button
     },
-    created() {
-        // window.addEventListener('hashchange', this.afterQRScan)
-    },
-    destroyed() {
-        // window.removeEventListener('hashchange', this.afterQRScan)
-    },
+    created() {},
+    destroyed() {},
     methods: {
         showPwd() {
             if (this.passwordType === 'password') {
@@ -141,8 +88,9 @@ export default {
                 this.passwordType = 'password'
             }
         },
+        validate() {},
         handleLogin() {
-            this.$refs.loginForm.validate(valid => {
+            this.validate(valid => {
                 if (valid) {
                     this.loading = true
                     this.$store
@@ -164,53 +112,6 @@ export default {
 }
 </script>
 
-<style scoped rel="stylesheet/less" lang="less">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-@bg: #283443;
-@light_gray: #eee;
-@cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: @cursor)) {
-    .login-container .el-input input {
-        color: @cursor;
-        &::first-line {
-            color: @light_gray;
-        }
-    }
-}
-
-/* reset element-ui css */
-.login-container {
-    .el-input {
-        display: inline-block;
-        height: 47px;
-        width: 85%;
-        input {
-            background: transparent;
-            border: 0px;
-            -webkit-appearance: none;
-            border-radius: 0px;
-            padding: 12px 5px 12px 15px;
-            color: @light_gray;
-            height: 47px;
-            caret-color: @cursor;
-            &:-webkit-autofill {
-                box-shadow: 0 0 0px 1000px @bg inset !important;
-                -webkit-text-fill-color: @cursor !important;
-            }
-        }
-    }
-    .el-form-item {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        color: #454545;
-    }
-}
-</style>
-
 <style rel="stylesheet/less" lang="less" scoped>
 @bg: #2d3a4b;
 @dark_gray: #889aa4;
@@ -220,27 +121,9 @@ export default {
     min-height: 100%;
     width: 100%;
     background-color: @bg;
+    padding: 100px 0 0 0;
     overflow: hidden;
-    .login-form {
-        position: relative;
-        width: 520px;
-        max-width: 100%;
-        padding: 160px 35px 0;
-        margin: 0 auto;
-        overflow: hidden;
-    }
-    .tips {
-        font-size: 14px;
-        color: #fff;
-        margin-bottom: 10px;
-        span {
-            &:first-of-type {
-                margin-right: 16px;
-            }
-        }
-    }
     .svg-container {
-        padding: 6px 5px 6px 15px;
         color: @dark_gray;
         vertical-align: middle;
         width: 30px;
@@ -255,14 +138,21 @@ export default {
             text-align: center;
             font-weight: bold;
         }
-        .set-language {
-            color: #fff;
-            position: absolute;
-            top: 3px;
-            font-size: 18px;
-            right: 0px;
-            cursor: pointer;
-        }
+    }
+    .mb10 {
+        margin: 0 0 10px 0;
+    }
+    .w300 {
+        width: 300px;
+    }
+    .icon {
+        font-size: 26px;
+    }
+    .form-field {
+        height: 40px;
+    }
+    .login-btn {
+        width: 80%;
     }
     .show-pwd {
         position: absolute;

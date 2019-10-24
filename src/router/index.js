@@ -29,7 +29,7 @@ Vue.use(Router)
 export const constantRoutes = [
     {
         path: '',
-        redirect: '/home'
+        redirect: '/index'
     },
     {
         path: '/login',
@@ -40,27 +40,12 @@ export const constantRoutes = [
         hidden: true
     },
     {
-        path: '/home',
-        component: Layout,
+        path: '/index',
         name: 'home',
         meta: {
-            authCode: 'C21001'
+            // authCode: 'C21001'
         },
-        redirect: '/home/index',
-        children: [
-            {
-                path: 'index',
-                component: () => import(/* webpackChunkName: "Home" */ '@/views/hello'),
-                name: 'homeIndex',
-                meta: {
-                    title: 'homeIndex',
-                    icon: 'homeIndex',
-                    authCode: 'C21011',
-                    noCache: true,
-                    affix: true
-                }
-            }
-        ]
+        component: () => import(/* webpackChunkName: "Index" */ '@/views/home/index')
     },
     {
         path: '/404',
@@ -78,7 +63,7 @@ export default new Router({
 
 export const asyncRoutes = [
     {
-        path: '/operation',
+        path: '/history',
         component: Layout,
         alwaysShow: true, // will always show the root menu
         meta: {

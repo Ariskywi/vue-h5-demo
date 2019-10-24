@@ -3,3 +3,4 @@ node_modules
 build/index.html
 static
 src/assets/css/theme/*
+doc

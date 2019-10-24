@@ -2,21 +2,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-// import './registerServiceWorker'
-import Element from 'element-ui'
 
 import 'normalize.css'
 import '@/assets/css/main.scss'
 import '@/assets/iconfont/iconfont.js'
 
-import '@/router/permission'
+// import '@/router/permission'
 import '@/utils/errorLog'
 
 import * as filters from './utils/filters'
-
-Vue.use(Element, {
-    size: sessionStorage.getItem('size') || 'medium'
-})
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
