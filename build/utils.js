@@ -1,6 +1,5 @@
 'use strict'
 const path = require('path')
-const config = require('../config')
 const pxtorem = require('postcss-pxtorem')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const packageConfig = require('../package.json')
@@ -13,12 +12,7 @@ const pxtoremOpts = {
     minPixelValue: 2 // 替换的最小像素值
 }
 
-exports.assetsPath = function(_path) {
-    const assetsSubDirectory =
-        process.env.NODE_ENV === 'production' ? config.build.assetsSubDirectory : config.dev.assetsSubDirectory
-
-    return path.posix.join(assetsSubDirectory, _path)
-}
+exports.assetsPath = _path => path.posix.join('static', _path)
 
 // common function to get style loaders
 exports.getStyleLoaders = (cssOptions, preProcessor) => {
@@ -91,36 +85,7 @@ exports.createNotifierCallback = () => {
         notifier.notify({
             title: packageConfig.name,
             message: severity + ': ' + error.name,
-            subtitle: filename || '',
-            icon: path.join(__dirname, 'logo.png')
+            subtitle: filename || ''
         })
     }
-}
-
-exports.getClientEnvironment = function(publicUrl) {
-    const raw = Object.keys(process.env).reduce(
-        (env, key) => {
-            env[key] = process.env[key]
-            return env
-        },
-        {
-            // Useful for determining whether we’re running in production mode.
-            // Most importantly, it switches React into the correct mode.
-            NODE_ENV: process.env.NODE_ENV || 'development',
-            // Useful for resolving the correct path to static assets in `public`.
-            // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
-            // This should only be used as an escape hatch. Normally you would put
-            // images into the `src` and `import` them in code to get their paths.
-            PUBLIC_URL: publicUrl
-        }
-    )
-    // Stringify all values so we can feed into Webpack DefinePlugin
-    const stringified = {
-        'process.env': Object.keys(raw).reduce((env, key) => {
-            env[key] = JSON.stringify(raw[key])
-            return env
-        }, {})
-    }
-
-    return { raw, stringified }
 }
