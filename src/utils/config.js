@@ -6,26 +6,41 @@ const mockConfig = {
 const devProtocol = 'http://'
 const devHost = '10.10.200.50'
 const devPort = 80
+const staticPort = 8887
 const devConfig = {
     host: devHost,
     port: devPort,
     url: `${devProtocol}${devHost}:${devPort}`,
-    apiUrl: `${devProtocol}${devHost}:${devPort}/mock/80`
+    apiUrl: `${devProtocol}${devHost}:${devPort}/mock/154/api`,
+    staticUrl: `${devProtocol}${devHost}:${staticPort}`
 }
 
+// const devProtocol = 'http://'
+// const devHost = 'localhost'
+// const devPort = 7001
+// const staticPort = 8887
+// const devConfig = {
+//     host: devHost,
+//     port: devPort,
+//     url: `${devProtocol}${devHost}`,
+//     apiUrl: `${devProtocol}${devHost}:${devPort}/api`,
+//     staticUrl: `${devProtocol}${devHost}:${staticPort}`
+// }
+
 // 生产环境配置
-const proProtocol = 'http://'
-const staticHost = 'www.bhfae.com'
+const proProtocol = 'https://'
+const staticHost = 'report.bhfae.com'
 
 const apiProtocol = 'https://'
-const apiHost = 'test.bhfae.com'
-const apiPort = 80
+const apiHost = 'report.bhfae.com'
+const apiPort = 443
 
 const proConfig = {
     host: apiHost,
     port: apiPort,
     url: `${proProtocol}${staticHost}`,
-    apiUrl: `${apiProtocol}${apiHost}`
+    apiUrl: `${apiProtocol}${apiHost}/api`,
+    staticUrl: 'https://report.bhfae.com/static/images/month-reports'
 }
 
 let config = mockConfig

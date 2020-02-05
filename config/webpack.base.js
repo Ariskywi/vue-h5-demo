@@ -1,10 +1,10 @@
 'use strict'
 const path = require('path')
 const webpack = require('webpack')
-const utils = require('../build/utils')
-const config = require('../config')
 const { VueLoaderPlugin } = require('vue-loader')
 const manifest = require('../public/manifest_vendor')
+
+const assetsSubDirectory = 'static'
 
 function resolve(dir) {
     return path.join(__dirname, '../', dir)
@@ -17,20 +17,17 @@ const createLintingRule = () => ({
     include: [resolve('src')],
     options: {
         formatter: require('eslint-friendly-formatter'),
-        emitWarning: !config.dev.showEslintErrorsInOverlay
+        emitWarning: true
     }
 })
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
-    entry: ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js'],
+    entry: './src/main.js',
     output: {
-        path: config.build.assetsRoot,
+        path: resolve('dist'),
         filename: '[name].js',
-        publicPath:
-            process.env.NODE_ENV === 'production'
-                ? config.build.assetsPublicPath
-                : config.dev.assetsPublicPath
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
@@ -39,10 +36,11 @@ module.exports = {
         }
     },
     optimization: {
-        // Automatically split vendor and commons
+        sideEffects: false,
         splitChunks: {
             chunks: 'all',
-            minSize: 0,
+            name: true,
+            minSize: 0
             // automaticNameDelimiter: '-'
         },
         // Keep the runtime chunk seperated to enable long term caching
@@ -50,12 +48,16 @@ module.exports = {
     },
     module: {
         rules: [
-            ...(config.dev.useEslint ? [createLintingRule()] : []),
+            ...[createLintingRule()],
             // keep vue-loader outside of "oneOf"
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options: {}
+                options: {
+                    compilerOptions: {
+                        preserveWhitespace: false
+                    }
+                }
             },
             {
                 // "oneOf" will traverse all following loaders until one will
@@ -63,17 +65,16 @@ module.exports = {
                 // back to the "file" loader at the end of the loader list.
                 oneOf: [
                     {
-                        test: /\.js$/,
+                        test: /\.(js|jsx)$/,
                         loader: 'babel-loader',
-                        // exclude: file =>
-                        //     /node_modules/.test(file) &&
-                        //     !/\.vue\.js/.test(file),
+                        exclude: file => /node_modules/.test(file) && !/\.vue\.js/.test(file),
                         include: [
                             resolve('src'),
                             resolve('test'),
                             resolve('node_modules/webpack-dev-server/client')
                         ],
                         options: {
+                            rootMode: 'upward',
                             // This is a feature of `babel-loader` for webpack (not Babel itself).
                             // It enables caching results in ./node_modules/.cache/babel-loader/
                             // directory for faster rebuilds.
@@ -86,28 +87,24 @@ module.exports = {
                         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                         loader: 'url-loader',
                         options: {
-                            limit: 10000,
-                            name: utils.assetsPath('img/[name].[hash:8].[ext]')
+                            limit: 8192,
+                            name: `${assetsSubDirectory}/images/[name].[hash:8].[ext]`
                         }
                     },
                     {
                         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
                         loader: 'url-loader',
                         options: {
-                            limit: 10000,
-                            name: utils.assetsPath(
-                                'media/[name].[hash:8].[ext]'
-                            )
+                            limit: 8192,
+                            name: `${assetsSubDirectory}/media/[name].[hash:8].[ext]`
                         }
                     },
                     {
                         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
                         loader: 'url-loader',
                         options: {
-                            limit: 10000,
-                            name: utils.assetsPath(
-                                'fonts/[name].[hash:8].[ext]'
-                            )
+                            limit: 8192,
+                            name: `${assetsSubDirectory}/fonts/[name].[hash:8].[ext]`
                         }
                     },
                     // "file" loader makes sure those assets get served by WebpackDevServer.
@@ -131,9 +128,7 @@ module.exports = {
                         ],
                         loader: require.resolve('file-loader'),
                         options: {
-                            name: utils.assetsPath(
-                                'media/[name].[hash:8].[ext]'
-                            )
+                            name: `${assetsSubDirectory}/files/[name].[hash:8].[ext]`
                         }
                     }
                 ]
@@ -142,7 +137,6 @@ module.exports = {
     },
     plugins: [
         new webpack.DllReferencePlugin({
-            // context: __dirname,
             manifest
         }),
         new VueLoaderPlugin(),

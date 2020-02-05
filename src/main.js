@@ -3,6 +3,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import 'animate.css'
 import 'normalize.css'
 import '@/assets/css/main.scss'
 import '@/assets/iconfont/iconfont.js'
@@ -10,12 +11,11 @@ import '@/assets/iconfont/iconfont.js'
 // import '@/router/permission'
 import '@/utils/errorLog'
 
-import * as filters from './utils/filters'
-
+// import * as filters from './utils/filters'
 // register global utility filters.
-Object.keys(filters).forEach(key => {
-    Vue.filter(key, filters[key])
-})
+// Object.keys(filters).forEach(key => {
+//     Vue.filter(key, filters[key])
+// })
 
 Vue.config.productionTip = false
 

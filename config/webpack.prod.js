@@ -3,7 +3,6 @@
 const path = require('path')
 const utils = require('../build/utils')
 const webpack = require('webpack')
-const config = require('../config')
 const merge = require('webpack-merge')
 const env = require('../config/prod.env')
 const baseWebpackConfig = require('./webpack.base')
@@ -12,12 +11,11 @@ const TerserPlugin = require('terser-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const manifest = require('../public/manifest_vendor')
-
-const vendor = '/static/js/' + manifest.name.replace('_', '.') + '.js'
+const vendor = `./static/js/${manifest.name.replace('_', '.')}.js`
+const assetsSubDirectory = 'static'
 
 // style files regexes
 const cssRegex = /\.css$/
@@ -35,19 +33,13 @@ const webpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
     // Don't attempt to continue if there are any errors.
     bail: true,
-    devtool: config.build.productionSourceMap ? config.build.devtool : false,
-    // entry: {
-    //     app2: './src/index.js'
-    // },
+    devtool: false,
     output: {
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
     },
     optimization: {
-        splitChunks: {
-            // name: false
-        },
-        sideEffects: true,
+        sideEffects: false,
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
@@ -84,7 +76,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 parallel: true,
                 // Enable file caching
                 cache: true,
-                sourceMap: config.build.productionSourceMap
+                sourceMap: false
             })
         ]
     },
@@ -101,7 +93,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 exclude: cssModuleRegex,
                 use: utils.getStyleLoaders({
                     importLoaders: 1,
-                    sourceMap: config.build.productionSourceMap,
+                    sourceMap: false,
                     extract: true,
                     usePx2rem: true,
                     usePostCSS: true
@@ -114,7 +106,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 use: utils.getStyleLoaders({
                     importLoaders: 1,
                     modules: true,
-                    sourceMap: config.build.productionSourceMap,
+                    sourceMap: false,
                     extract: true,
                     usePx2rem: true,
                     usePostCSS: true
@@ -126,7 +118,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 use: utils.getStyleLoaders(
                     {
                         importLoaders: 2,
-                        sourceMap: config.build.productionSourceMap,
+                        sourceMap: false,
                         extract: true,
                         usePx2rem: true,
                         usePostCSS: true
@@ -140,7 +132,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                     {
                         importLoaders: 2,
                         modules: true,
-                        sourceMap: config.build.productionSourceMap,
+                        sourceMap: false,
                         extract: true,
                         usePx2rem: true,
                         usePostCSS: true
@@ -159,7 +151,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 use: utils.getStyleLoaders(
                     {
                         importLoaders: 2,
-                        sourceMap: config.build.productionSourceMap,
+                        sourceMap: false,
                         extract: true,
                         usePx2rem: true,
                         usePostCSS: true
@@ -175,7 +167,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                     {
                         importLoaders: 2,
                         modules: true,
-                        sourceMap: config.build.productionSourceMap,
+                        sourceMap: false,
                         extract: true,
                         usePx2rem: true,
                         usePostCSS: true
@@ -196,7 +188,7 @@ const webpackConfig = merge(baseWebpackConfig, {
             chunkFilename: utils.assetsPath('css/[name].[contenthash:8].css')
         }),
         new HtmlWebpackPlugin({
-            filename: config.build.index,
+            filename: 'index.html',
             template: 'build/index.html',
             inject: 'body',
             vendor,
@@ -216,33 +208,19 @@ const webpackConfig = merge(baseWebpackConfig, {
         // copy custom static assets
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, '../static'),
-                to: `${config.dev.assetsSubDirectory}`,
+                from: path.resolve(__dirname, '../src/assets/favicon'),
+                to: `${resolve('dist')}`,
                 ignore: ['.*']
             },
             {
                 from: path.resolve(__dirname, '../public'),
-                to: `${config.dev.assetsSubDirectory}/js`,
+                to: `${assetsSubDirectory}/js`,
                 ignore: ['.*']
             }
         ])
     ]
 })
 
-if (config.build.productionGzip) {
-    webpackConfig.plugins.push(
-        new CompressionWebpackPlugin({
-            asset: '[path].gz[query]',
-            algorithm: 'gzip',
-            test: new RegExp('\\.(' + config.build.productionGzipExtensions.join('|') + ')$'),
-            threshold: 10240,
-            minRatio: 0.8
-        })
-    )
-}
-
-if (config.build.bundleAnalyzerReport) {
-    webpackConfig.plugins.push(new BundleAnalyzerPlugin())
-}
+// webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 
 module.exports = webpackConfig

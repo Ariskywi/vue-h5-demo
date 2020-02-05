@@ -4,7 +4,6 @@ const path = require('path')
 const utils = require('../build/utils')
 const env = require('../config/dev.env')
 const webpack = require('webpack')
-const config = require('../config')
 const merge = require('webpack-merge')
 const portfinder = require('portfinder')
 const baseWebpackConfig = require('./webpack.base')
@@ -13,10 +12,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const manifest = require('../public/manifest_vendor')
-const vendor = '/static/js/' + manifest.name.replace('_', '.') + '.js'
+const vendor = './static/js/' + manifest.name.replace('_', '.') + '.js'
 
-const HOST = process.env.HOST
-const PORT = process.env.PORT && Number(process.env.PORT)
+const devPublicPath = '/'
+const assetsSubDirectory = 'static'
 
 // style files regexes
 const cssRegex = /\.css$/
@@ -29,7 +28,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/
 const devWebpackConfig = merge(baseWebpackConfig, {
     mode: 'development',
     // cheap-module-eval-source-map is faster for development
-    devtool: config.dev.devtool,
+    devtool: 'cheap-module-eval-source-map',
     stats: {
         modules: true,
         chunks: true,
@@ -38,9 +37,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     },
     output: {
         chunkFilename: utils.assetsPath('js/[name].js')
-    },
-    optimization: {
-        splitChunks: {}
     },
     module: {
         rules: [
@@ -54,7 +50,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 test: cssRegex,
                 exclude: cssModuleRegex,
                 use: utils.getStyleLoaders({
-                    sourceMap: config.dev.cssSourceMap,
+                    sourceMap: true,
                     usePx2rem: true,
                     usePostCSS: true
                 })
@@ -65,7 +61,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 test: cssModuleRegex,
                 use: utils.getStyleLoaders({
                     modules: true,
-                    sourceMap: config.dev.cssSourceMap,
+                    sourceMap: true,
                     usePx2rem: true,
                     usePostCSS: true
                 })
@@ -76,7 +72,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 use: utils.getStyleLoaders(
                     {
                         importLoaders: 2,
-                        sourceMap: config.dev.cssSourceMap,
+                        sourceMap: true,
                         usePx2rem: true,
                         usePostCSS: true
                     },
@@ -89,7 +85,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                     {
                         importLoaders: 2,
                         modules: true,
-                        sourceMap: config.dev.cssSourceMap,
+                        sourceMap: true,
                         usePx2rem: true,
                         usePostCSS: true
                     },
@@ -105,7 +101,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                     {
                         importLoaders: 2,
                         indentedSyntax: true,
-                        sourceMap: config.dev.cssSourceMap,
+                        sourceMap: true,
                         usePx2rem: true,
                         usePostCSS: true
                     },
@@ -121,7 +117,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                         importLoaders: 2,
                         modules: true,
                         indentedSyntax: true,
-                        sourceMap: config.dev.cssSourceMap,
+                        sourceMap: true,
                         usePx2rem: true,
                         usePostCSS: true
                     },
@@ -144,14 +140,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         }),
         // copy custom static assets
         new CopyWebpackPlugin([
-            // {
-            //     from: path.resolve(__dirname, '../static'),
-            //     to: config.dev.assetsSubDirectory,
-            //     ignore: ['.*']
-            // },
+            {
+                from: path.resolve(__dirname, '../src/assets/favicon'),
+                to: '',
+                ignore: ['.*']
+            },
             {
                 from: path.resolve(__dirname, '../public'),
-                to: `${config.dev.assetsSubDirectory}/js`,
+                to: `${assetsSubDirectory}/js`,
                 ignore: ['.*']
             }
         ])
@@ -166,7 +162,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             rewrites: [
                 {
                     from: /.*/,
-                    to: path.posix.join(config.dev.assetsPublicPath, 'index.html')
+                    to: path.posix.join(devPublicPath, 'index.html')
                 }
             ]
         },
@@ -174,21 +170,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         hot: true,
         contentBase: false, // since we use CopyWebpackPlugin.
         compress: true,
-        host: HOST || config.dev.host,
-        port: PORT || config.dev.port,
-        open: config.dev.autoOpenBrowser,
-        overlay: config.dev.errorOverlay ? { warnings: false, errors: true } : false,
-        publicPath: config.dev.assetsPublicPath,
-        proxy: config.dev.proxyTable,
+        host: 'localhost',
+        port: 3000,
+        open: true,
+        overlay: { warnings: false, errors: true },
+        publicPath: devPublicPath,
+        proxy: {},
         // quiet: true, // necessary for FriendlyErrorsPlugin
         watchOptions: {
-            poll: config.dev.poll
+            poll: false
         }
     }
 })
 
 module.exports = new Promise((resolve, reject) => {
-    portfinder.basePort = process.env.PORT || config.dev.port
+    portfinder.basePort = 3000
     portfinder.getPort((err, port) => {
         if (err) {
             reject(err)
@@ -206,7 +202,7 @@ module.exports = new Promise((resolve, reject) => {
                             `Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`
                         ]
                     },
-                    onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined
+                    onErrors: utils.createNotifierCallback()
                 })
             )
 

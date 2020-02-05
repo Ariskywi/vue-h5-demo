@@ -1,3 +1,6 @@
+import request from '@/utils/request'
+import config from '@/utils/config'
+
 const app = {
     state: {
         sidebar: {
@@ -6,8 +9,9 @@ const app = {
                 : true,
             withoutAnimation: false
         },
-        device: 'desktop',
-        size: sessionStorage.getItem('size') || 'medium'
+        reportDate: '201910',
+        dateColumns: [],
+        reportPages: []
     },
     mutations: {
         TOGGLE_SIDEBAR: state => {
@@ -27,13 +31,14 @@ const app = {
         TOGGLE_DEVICE: (state, device) => {
             state.device = device
         },
-        SET_LANGUAGE: (state, language) => {
-            state.language = language
-            sessionStorage.setItem('language', language)
+        SET_REPORT_DATE: (state, reportDate) => {
+            state.reportDate = reportDate
         },
-        SET_SIZE: (state, size) => {
-            state.size = size
-            sessionStorage.setItem('size', size)
+        SET_DATE_COLUMNS: (state, { dateColumns }) => {
+            state.dateColumns = dateColumns
+        },
+        SET_REPORT_PAGES: (state, { reportPages }) => {
+            state.reportPages = reportPages
         }
     },
     actions: {
@@ -45,6 +50,38 @@ const app = {
         },
         toggleDevice({ commit }, device) {
             commit('TOGGLE_DEVICE', device)
+        },
+        async getDateColumns({ commit }) {
+            const res = await request({
+                url: '/report/getReportDate',
+                method: 'post',
+                data: {}
+            })
+            if (res.success) {
+                commit({
+                    type: 'SET_DATE_COLUMNS',
+                    dateColumns: res.data
+                })
+            }
+        },
+        async getReportPages({ commit }, reportDate) {
+            const res = await request({
+                url: '/report/getReport',
+                method: 'post',
+                data: {
+                    reportDate
+                }
+            })
+            if (res.success) {
+                const reportPages = res.data.map(img => ({
+                    url: `${config.staticUrl}/${img.url}`,
+                    key: `${reportDate}-${img.partId}-${img.partIndex}`
+                }))
+                commit({
+                    type: 'SET_REPORT_PAGES',
+                    reportPages
+                })
+            }
         }
     }
 }

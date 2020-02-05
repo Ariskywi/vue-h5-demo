@@ -1,9 +1,6 @@
 <template>
-    <slider>
-        <div class="content">
-            <p>Main Page</p>
-            <div class="next-btn btn" @click="nextPage">下一步</div>
-        </div>
+    <slider :noPrompt="noPrompt">
+        <div class="content"></div>
     </slider>
 </template>
 
@@ -12,7 +9,8 @@
     width: 100%;
     height: 100%;
     color: #ffffff;
-    background: #8cc0ff;
+    background: #8cc0ff url('../../../assets/images/201909/00/00-1.png') no-repeat center;
+    background-size: cover;
 }
 .next-btn {
     border: 1px solid #00ffff;
@@ -23,18 +21,14 @@
 import slider from '../slider'
 export default {
     name: 'page1',
-    props: ['swiper'],
+    props: ['swiper', 'noPrompt'],
     components: {
         slider
     },
     data() {
         return {}
     },
-    methods: {
-        nextPage: function(e) {
-            this.swiper.swipeNext()
-        }
-    },
+    methods: {},
     created() {},
     mounted() {
         this.$emit('addSlider', this.$el)
